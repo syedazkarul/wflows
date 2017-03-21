@@ -52,7 +52,9 @@ class MPStaticVASPInputTask(FiretaskBase):
         dest_root = fw_spec["_fw_en"]["run_dest_root"]
         dest = "{}/{}/bs/{}/relax".format(dest_root, os.environ["USER"], material_id)
         user_incar_settings = fw_spec.get("user_incar_settings", {})
-        vasp_input_set = MPStaticSet.from_prev_calc(dest, user_incar_settings=user_incar_settings)
+        vasp_input_set = MPStaticSet.from_prev_calc(prev_calc_dir=dest,
+                                                    standardize=1e-3,
+                                                    user_incar_settings=user_incar_settings)
         dec = MontyDecoder()
         vis = dec.process_decoded(vasp_input_set.as_dict())
         vis.write_input(".")
